@@ -78,4 +78,69 @@ class VolatilLoteRepositoryTest {
 
     }
 
+    @Test
+    @DisplayName("Buscar um Lote pelo seu ID")
+    void buscarLotePeloId() {
+        driver.save(lote);
+
+        resultado = driver.find(lote.getId());
+
+        assertEquals(resultado.getId().longValue(), lote.getId().longValue());
+        assertEquals(resultado.getProduto(), produto);
+    }
+
+    @Test
+    @DisplayName("Buscar todos os Lotes")
+    void buscarTodosLotes() {
+        driver.save(lote);
+
+        assertEquals(driver.findAll().size(), 1);
+    }
+    
+    @Test
+    @DisplayName("Deletar um Lote")
+    void deletarLotePeloId() {
+        driver.save(lote);
+
+        driver.delete(lote);
+
+        assertEquals(driver.findAll().size(), 0);
+    }
+
+    @Test
+    @DisplayName("Deletar todos os Lotes")
+    void deletarTodosLotes() {
+        driver.save(lote);
+
+        driver.deleteAll();
+
+        assertEquals(driver.findAll().size(), 0);
+    }
+
+    @Test
+    @DisplayName("Atualizar um Lote")
+    void atualizarLote() {
+        driver.save(lote);
+
+        Produto produtoExtra = Produto.builder()
+                .id(2L)
+                .nome("Produto Extra")
+                .codigoBarra("987654321")
+                .fabricante("Fabricante Extra")
+                .preco(125.36)
+                .build();
+        Lote loteExtra = Lote.builder()
+                .id(2L)
+                .numeroDeItens(100)
+                .produto(produtoExtra)
+                .build();
+
+        resultado = driver.update(loteExtra);
+
+        assertEquals(driver.findAll().size(), 1);
+        assertEquals(resultado.getId().longValue(), loteExtra.getId().longValue());
+        assertEquals(resultado.getProduto(), produtoExtra);
+    }
+
+
 }
