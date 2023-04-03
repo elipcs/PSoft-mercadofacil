@@ -7,14 +7,15 @@ import lombok.Data;
 @Data
 @Builder
 public class Produto {
-   @JsonProperty("id")
-   private Long id;
-   @JsonProperty("nome")
-   private String nome;
-   @JsonProperty("preco")
-   private double preco;
-   @JsonProperty("codigoBarra")
-   private String codigoBarra;
-   @JsonProperty("fabricante")
-   private String fabricante;
+    @JsonProperty("id")
+    private Long id;
+    @JsonProperty("nome")
+    private String nome;
+    @JsonProperty("preco")
+    private double preco;
+    @JsonProperty("codigoBarra")
+    private String codigoBarra;
+    @JsonProperty("fabricante")
+    private String fabricante;
 }
+

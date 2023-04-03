@@ -10,3 +10,4 @@ public interface ProdutoRepository<T, ID> {
     void delete(T produto);
     void deleteAll();
 }
+
