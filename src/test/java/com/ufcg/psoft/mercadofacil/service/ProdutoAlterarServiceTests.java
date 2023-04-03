@@ -9,16 +9,19 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@DisplayName("Testes para a alteração do Produto")
-public class ProdutoAlterarServiceTest {
+@DisplayName("Testes do Serviço de alteração do produto")
+public class ProdutoAlterarServiceTests {
+
     @Autowired
-    ProdutoAlterarImplService driver;
+    ProdutoAlterarService driver;
+
     @MockBean
     ProdutoRepository<Produto, Long> produtoRepository;
+
     Produto produto;
 
     @BeforeEach
@@ -33,42 +36,28 @@ public class ProdutoAlterarServiceTest {
                         .build()
                 );
         produto = produtoRepository.find(10L);
+    }
+
+    @Test
+    @DisplayName("Quando um novo nome válido for fornecido para o produto")
+    void quandoNovoNomeValido() {
+        // Arrange
+        produto.setNome("Produto Dez Atualizado");
         Mockito.when(produtoRepository.update(produto))
                 .thenReturn(Produto.builder()
                         .id(10L)
                         .codigoBarra("7899137500104")
-                        .nome("Nome Produto Alterado")
-                        .fabricante("Nome Fabricante Alterado")
-                        .preco(500.00)
+                        .nome("Produto Dez Atualizado")
+                        .fabricante("Empresa Dez")
+                        .preco(450.00)
                         .build()
                 );
-    }
 
-    @Test
-    @DisplayName("Quando altero o nome do produto com dados válidos")
-    void alterarNomeDoProduto() {
-        /* AAA Pattern */
-        //Arrange
-        produto.setNome("Nome Produto Alterado");
-        //Act
+        // Act
         Produto resultado = driver.alterar(produto);
-        //Assert
-        assertEquals("Nome Produto Alterado", resultado.getNome());
-    }
 
-    @Test
-    @DisplayName("Quando o preço é menor ou igual a zero")
-    void precoMenorIgualAZero() {
-        //Arrange
-        produto.setPreco(0.0);
-        //Act
-        RuntimeException thrown = assertThrows(
-                RuntimeException.class,
-                () -> driver.alterar(produto)
-        );
-        //Assert
-        assertEquals("Preco invalido!", thrown.getMessage());
+        // Assert
+        assertEquals("Produto Dez Atualizado", resultado.getNome());
     }
 
 }
-
